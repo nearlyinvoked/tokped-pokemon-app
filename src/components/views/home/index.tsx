@@ -6,15 +6,9 @@ import PokemonContext from '../../context/PokemonContext'
 //type
 import * as CSS from 'csstype'
 
-type PokemonProps = {
-  name: string
-  url: string
-}
-
 type DataProps = {
   name: string
   url: string
-  owned: number
 }
 
 const Index = () => {
@@ -41,16 +35,7 @@ const Index = () => {
       const res = await axios.get(url)
       const data = res.data.results
 
-      let pokemon: DataProps[] = []
-
-      data.forEach((item: PokemonProps) => {
-        let mypokemon = ownedPokemon.find((el) => el.name === item.name)
-        pokemon.push({
-          name: item.name,
-          url: item.url,
-          owned: mypokemon ? mypokemon.owned : 0,
-        })
-      })
+      let pokemon: DataProps[] = data
 
       let newState: DataProps[] = pokemonList.concat(pokemon)
 
