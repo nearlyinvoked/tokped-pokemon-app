@@ -2,6 +2,12 @@
   font-family: 'Roboto', sans-serif;
 }
 
+@media (max-width: 575px) {
+  .nav-link {
+    text-align: center;
+  }
+}
+
 @media (max-width: 600px) {
   .nav-link {
     text-align: center;
@@ -14,5 +20,9 @@
 }
 
 .navbar-nav {
+  flex-grow: 1;
+}
+
+.pokemon-name {
   flex-grow: 1;
 }
