@@ -1,24 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import PokemonContext from '../../context/PokemonContext'
 
 //type
 import * as CSS from 'csstype'
-
-const mypokemon = [
-  {
-    name: 'bulbasaur',
-    owned: 5,
-  },
-  {
-    name: 'charmander',
-    owned: 2,
-  },
-  {
-    name: 'jigglypuff',
-    owned: 3,
-  },
-]
 
 type PokemonProps = {
   name: string
@@ -32,6 +18,9 @@ type DataProps = {
 }
 
 const Index = () => {
+  //context
+  const { ownedPokemon } = useContext(PokemonContext)
+
   //state
   const [pokemonList, setPokemonList] = useState<DataProps[]>([])
   const [pokemonURL, setPokemonURL] = useState<string>(
@@ -55,11 +44,11 @@ const Index = () => {
       let pokemon: DataProps[] = []
 
       data.forEach((item: PokemonProps) => {
-        let ownedPokemon = mypokemon.find((el) => el.name === item.name)
+        let mypokemon = ownedPokemon.find((el) => el.name === item.name)
         pokemon.push({
           name: item.name,
           url: item.url,
-          owned: ownedPokemon ? ownedPokemon.owned : 0,
+          owned: mypokemon ? mypokemon.owned : 0,
         })
       })
 
@@ -80,18 +69,21 @@ const Index = () => {
   return (
     <div className="container">
       <div className="row mt-4">
-        {pokemonList.map((item) => (
-          <div key={item.name} className="col-md-6 col-sm-12">
-            <div style={boxStyle}>
-              <h5 className="pokemon-name" style={{ marginTop: '0.5rem' }}>
-                <b>{item.name}</b> (owned: {item.owned})
-              </h5>
-              <Link to="/detail" className="btn btn-primary">
-                Detail
-              </Link>
+        {pokemonList.map((item) => {
+          const myPokemon = ownedPokemon.find((data) => data.name === item.name)
+          return (
+            <div key={item.name} className="col-md-6 col-sm-12">
+              <div style={boxStyle}>
+                <h5 className="pokemon-name" style={{ marginTop: '0.5rem' }}>
+                  <b>{item.name}</b> (owned: {myPokemon ? myPokemon.owned : 0})
+                </h5>
+                <Link to="/detail" className="btn btn-primary">
+                  Detail
+                </Link>
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
       <div className="d-flex justify-content-center mt-5 mb-5">
         <button
