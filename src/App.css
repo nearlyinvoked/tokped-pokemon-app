@@ -1,0 +1,18 @@
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+@media (max-width: 600px) {
+  .nav-link {
+    text-align: center;
+  }
+}
+
+.pokeball-icon {
+  margin-left: 1rem;
+  width: 40px;
+}
+
+.navbar-nav {
+  flex-grow: 1;
+}
