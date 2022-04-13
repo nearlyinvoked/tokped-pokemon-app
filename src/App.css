@@ -2,6 +2,12 @@
   font-family: 'Roboto', sans-serif;
 }
 
+@media (max-width: 575px) {
+  .pokemon-stats > div > p {
+    text-align: center;
+  }
+}
+
 @media (max-width: 600px) {
   .nav-link {
     text-align: center;

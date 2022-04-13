@@ -16,7 +16,7 @@ const Index = () => {
             <div key={item.name} className="col-md-6 col-sm-12">
               <div style={boxStyle}>
                 <h5 className="pokemon-name" style={{ marginTop: '0.5rem' }}>
-                  <b>{item.name}</b> (owned: {item.owned})
+                  <b>{item.name.toUpperCase()}</b> (owned: {item.owned})
                 </h5>
                 <Link to={`/detail/${item.name}`} className="btn btn-primary">
                   View

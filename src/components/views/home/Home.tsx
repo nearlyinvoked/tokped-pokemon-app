@@ -57,7 +57,8 @@ const Index = () => {
             <div key={item.name} className="col-md-6 col-sm-12">
               <div style={boxStyle}>
                 <h5 className="pokemon-name" style={{ marginTop: '0.5rem' }}>
-                  <b>{item.name}</b> (owned: {myPokemon ? myPokemon.owned : 0})
+                  <b>{item.name.toUpperCase()}</b> (owned:{' '}
+                  {myPokemon ? myPokemon.owned : 0})
                 </h5>
                 <Link to={`/detail/${item.name}`} className="btn btn-primary">
                   View
