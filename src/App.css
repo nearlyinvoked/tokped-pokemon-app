@@ -2,12 +2,6 @@
   font-family: 'Roboto', sans-serif;
 }
 
-@media (max-width: 575px) {
-  .nav-link {
-    text-align: center;
-  }
-}
-
 @media (max-width: 600px) {
   .nav-link {
     text-align: center;
@@ -24,5 +18,9 @@
 }
 
 .pokemon-name {
+  flex-grow: 1;
+}
+
+.pokemon-nickname {
   flex-grow: 1;
 }

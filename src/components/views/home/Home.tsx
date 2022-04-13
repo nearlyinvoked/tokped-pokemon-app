@@ -33,10 +33,7 @@ const Index = () => {
   const fetchPokemon = async (url: string) => {
     try {
       const res = await axios.get(url)
-      const data = res.data.results
-
-      let pokemon: DataProps[] = data
-
+      let pokemon: DataProps[] = res.data.results
       let newState: DataProps[] = pokemonList.concat(pokemon)
 
       setPokemonURL(res.data.next)
@@ -62,8 +59,8 @@ const Index = () => {
                 <h5 className="pokemon-name" style={{ marginTop: '0.5rem' }}>
                   <b>{item.name}</b> (owned: {myPokemon ? myPokemon.owned : 0})
                 </h5>
-                <Link to="/detail" className="btn btn-primary">
-                  Detail
+                <Link to={`/detail/${item.name}`} className="btn btn-primary">
+                  View
                 </Link>
               </div>
             </div>
