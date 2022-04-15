@@ -6,7 +6,7 @@ import PokemonContext from '../../context/PokemonContext'
 //type
 import * as CSS from 'csstype'
 
-type DataProps = {
+export type DataProps = {
   name: string
   url: string
 }

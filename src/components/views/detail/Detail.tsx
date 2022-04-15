@@ -73,6 +73,12 @@ export type DataProps = {
   weight: number
 }
 
+export type UpdatePokemonProps = {
+  name: string
+  url: string
+  nickname: string
+}
+
 const Index = () => {
   //state
   const [pokemonData, setPokemonData] = useState<DataProps | null>(null)
@@ -80,14 +86,22 @@ const Index = () => {
   //get url params
   const params = useParams()
   const pokemonName = params.pokemonname
+  const url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`
 
   //context
-  const { ownedPokemon } = useContext(PokemonContext)
+  const { ownedPokemon, updateReducer } = useContext(PokemonContext)
   const myPokemon = ownedPokemon.find((item) => item.name === pokemonName)
 
   //Handler
-  const handleCatchPokemon = (name: string | undefined) => {
-    console.log(`catch ${name}`)
+  const handleCatchPokemon = ({ name, url, nickname }: UpdatePokemonProps) => {
+    const data = ownedPokemon.find((item: any) => item.name === name)
+    const filter = data?.list?.filter((item: any) => item.nickname === nickname)
+
+    if (filter) {
+      console.log('error same nickname')
+    } else {
+      updateReducer({ type: 'Update', payload: { name, url, nickname } })
+    }
   }
 
   useEffect(() => {
@@ -134,7 +148,13 @@ const Index = () => {
               <button
                 type="button"
                 className="btn btn-success"
-                onClick={() => handleCatchPokemon(pokemonData?.name)}
+                onClick={() =>
+                  handleCatchPokemon({
+                    name: pokemonData?.name!,
+                    url: url,
+                    nickname: 'test',
+                  })
+                }
               >
                 Catch {pokemonData?.name.toUpperCase()}
               </button>
@@ -150,7 +170,11 @@ const Index = () => {
         <div className="col-lg-4 col-md-6 col-sm-12"></div>
       </div>
 
-      <MyCurrentPokemon pokemonData={pokemonData} myPokemon={myPokemon} />
+      <MyCurrentPokemon
+        pokemonData={pokemonData}
+        myPokemon={myPokemon}
+        url={url}
+      />
     </div>
   )
 }

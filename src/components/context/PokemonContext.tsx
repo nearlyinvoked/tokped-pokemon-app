@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useReducer } from 'react'
 
 type PokemonNicknameProps = {
   nickname: string
@@ -11,71 +11,96 @@ export type OwnedPokemon = {
   list: PokemonNicknameProps[]
 }
 
+export type UpdatePokemonProps = {
+  name: string
+  url: string
+  nickname: string
+}
+
 type Props = {
   children: React.ReactNode
 }
 
-const useValue = () => {
-  const mypokemondata = [
-    {
-      name: 'bulbasaur',
-      url: 'https://pokeapi.co/api/v2/pokemon/1/',
-      owned: 5,
-      list: [
-        {
-          nickname: 'lulba1',
-        },
-        {
-          nickname: 'lulba2',
-        },
-        {
-          nickname: 'lulba3',
-        },
-        {
-          nickname: 'lulba4',
-        },
-        {
-          nickname: 'lulba5',
-        },
-      ],
-    },
-    {
-      name: 'charmander',
-      url: 'https://pokeapi.co/api/v2/pokemon/4/',
-      owned: 2,
-      list: [
-        {
-          nickname: 'char',
-        },
-        {
-          nickname: 'mander',
-        },
-      ],
-    },
-    {
-      name: 'jigglypuff',
-      url: 'https://pokeapi.co/api/v2/pokemon/39/',
-      owned: 3,
-      list: [
-        {
-          nickname: 'jiggly',
-        },
-        {
-          nickname: 'puff',
-        },
-        {
-          nickname: 'jigjig',
-        },
-      ],
-    },
-  ]
+type ReducerAction = {
+  type: string
+  payload: UpdatePokemonProps
+}
 
-  const [ownedPokemon, setOwnedPokemon] =
-    useState<OwnedPokemon[]>(mypokemondata)
+const reducer = (state: Array<any>, action: ReducerAction) => {
+  const { name, url, nickname } = action.payload
+  const current = state?.find((item) => item.name === name)
+  switch (action.type) {
+    case 'Update':
+      if (state == null) {
+        localStorage.setItem('myPokemon', JSON.stringify([action.payload]))
+        return [action.payload]
+      }
+
+      if (current) {
+        let filter = state.filter((item) => item.name !== name)
+        console.log(filter)
+        let data = {
+          name,
+          url,
+          owned: current.owned + 1,
+          list: [...current.list, { nickname }],
+        }
+        localStorage.setItem('myPokemon', JSON.stringify([data, ...filter]))
+        return [data, ...filter]
+      }
+
+      let data = {
+        name,
+        url,
+        owned: 1,
+        list: [{ nickname }],
+      }
+      localStorage.setItem('myPokemon', JSON.stringify([data, ...state]))
+      return [data, ...state]
+    case 'Delete':
+      if (current?.owned === 1) {
+        let deletedPokemon = state?.filter((item) => item.name !== name)
+        localStorage.setItem('myPokemon', JSON.stringify(deletedPokemon))
+        return [...deletedPokemon]
+      } else {
+        let filterDelete = state?.filter((item) => item.name !== name)
+        let updateDelete = {
+          name,
+          url,
+          owned: current?.owned! - 1,
+          list: current?.list.filter((item: any) => item.nickname !== nickname),
+        }
+        localStorage.setItem(
+          'myPokemon',
+          JSON.stringify([updateDelete, ...filterDelete!]),
+        )
+        return [updateDelete, ...filterDelete!]
+      }
+    default:
+      return state
+  }
+}
+
+const useValue = () => {
+  const getLocalStorage: OwnedPokemon[] | null = JSON.parse(
+    localStorage.getItem('myPokemon')!,
+  )
+  let initialState: OwnedPokemon[]
+  if (getLocalStorage == null) {
+    initialState = []
+  } else {
+    initialState = getLocalStorage
+  }
+
+  const [ownedPokemon, dispatch] = useReducer(reducer, initialState)
+
+  const updateReducer = ({ type, payload }: ReducerAction) => {
+    dispatch({ type, payload })
+  }
 
   return {
     ownedPokemon,
-    setOwnedPokemon,
+    updateReducer,
   }
 }
 

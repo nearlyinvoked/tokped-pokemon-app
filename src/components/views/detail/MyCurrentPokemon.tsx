@@ -1,21 +1,36 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { boxStyle, DataProps } from './Detail'
-import { OwnedPokemon } from '../../context/PokemonContext'
-
-type Props = {}
+import PokemonContext, { OwnedPokemon } from '../../context/PokemonContext'
+import { UpdatePokemonProps } from './Detail'
 
 type MyCurrentPokemonProps = {
   pokemonData: DataProps | null
   myPokemon: OwnedPokemon | undefined
+  url: string
 }
 
 const MyCurrentPokemon = ({
   pokemonData,
   myPokemon,
+  url,
 }: MyCurrentPokemonProps) => {
+  //context
+  const { ownedPokemon, updateReducer } = useContext(PokemonContext)
+
   //handler
-  const handleReleasePokemon = (nickname: string | undefined) => {
-    console.log(`release ${nickname}`)
+  const handleReleasePokemon = ({
+    name,
+    url,
+    nickname,
+  }: UpdatePokemonProps) => {
+    updateReducer({
+      type: 'Delete',
+      payload: {
+        name,
+        url,
+        nickname,
+      },
+    })
   }
 
   return (
@@ -42,7 +57,13 @@ const MyCurrentPokemon = ({
                     <button
                       type="button"
                       className="btn btn-danger"
-                      onClick={() => handleReleasePokemon(item.nickname)}
+                      onClick={() =>
+                        handleReleasePokemon({
+                          name: pokemonData?.name!,
+                          url: url,
+                          nickname: 'test',
+                        })
+                      }
                     >
                       Release
                     </button>
