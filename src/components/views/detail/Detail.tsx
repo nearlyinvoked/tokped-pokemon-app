@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useContext, useState, useEffect } from 'react'
+import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
-import PokemonContext, { OwnedPokemon } from '../../context/PokemonContext'
+import PokemonContext from '../../context/PokemonContext'
 
 //component
 import Abilities from './Abilities'
@@ -89,20 +89,8 @@ const Index = () => {
   const url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`
 
   //context
-  const { ownedPokemon, updateReducer } = useContext(PokemonContext)
+  const { ownedPokemon } = useContext(PokemonContext)
   const myPokemon = ownedPokemon.find((item) => item.name === pokemonName)
-
-  //Handler
-  const handleCatchPokemon = ({ name, url, nickname }: UpdatePokemonProps) => {
-    const data = ownedPokemon.find((item: any) => item.name === name)
-    const filter = data?.list?.filter((item: any) => item.nickname === nickname)
-
-    if (filter) {
-      console.log('error same nickname')
-    } else {
-      updateReducer({ type: 'Update', payload: { name, url, nickname } })
-    }
-  }
 
   useEffect(() => {
     const getPokemonDetail = async (name: string | undefined) => {
@@ -145,19 +133,12 @@ const Index = () => {
               </p>
             </div>
             <div className="d-flex justify-content-center">
-              <button
-                type="button"
+              <Link
                 className="btn btn-success"
-                onClick={() =>
-                  handleCatchPokemon({
-                    name: pokemonData?.name!,
-                    url: url,
-                    nickname: 'test',
-                  })
-                }
+                to={`/catch/${pokemonData?.name}`}
               >
                 Catch {pokemonData?.name.toUpperCase()}
-              </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -61,7 +61,7 @@ const MyCurrentPokemon = ({
                         handleReleasePokemon({
                           name: pokemonData?.name!,
                           url: url,
-                          nickname: 'test',
+                          nickname: item.nickname,
                         })
                       }
                     >

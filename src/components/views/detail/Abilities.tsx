@@ -21,7 +21,7 @@ const Abilities = ({
 }: AbilitiesComponentProps) => {
   let ability = ''
   abilities?.forEach((item, index) => {
-    if (index == abilities.length - 1) {
+    if (index === abilities.length - 1) {
       ability += item.ability.name
     } else {
       ability += item.ability.name + ', '
@@ -30,9 +30,9 @@ const Abilities = ({
 
   let move = ''
   moves?.forEach((item, index) => {
-    if (index < 9) {
+    if (index < 35) {
       move += item.move.name + ', '
-    } else if (index === 9) {
+    } else if (index === 35) {
       let remaining = moves.length - 1 - index
       move += item.move.name + `, ... +${remaining} more`
     } else {
@@ -42,7 +42,7 @@ const Abilities = ({
 
   let type = ''
   types?.forEach((item, index) => {
-    if (index == types.length - 1) {
+    if (index === types.length - 1) {
       type += item.type.name
     } else {
       type += item.type.name + ', '
