@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# Pokemon App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Hi, my name is Kevin Reynaldo Laurens and this is my web platform project for Tokopedia.
+Build using create-react-app with Typescript template
+You can try it on: https://kevinrl-pokemonapp.netlify.app/
 
 ## Available Scripts
 
