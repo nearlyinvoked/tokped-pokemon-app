@@ -19,6 +19,7 @@ const Catch = () => {
   //state
   const [pokemonData, setPokemonData] = useState<DataProps | null>(null)
   const [success, setSuccess] = useState<boolean>(random)
+  const [error, setError] = useState<boolean>(false)
   const [newNickname, setNickname] = useState<string>('')
 
   //context
@@ -33,7 +34,7 @@ const Catch = () => {
     console.log(filter)
 
     if (filter?.length > 0) {
-      console.log('error same nickname')
+      setError(true)
     } else {
       updateReducer({ type: 'Update', payload: { name, url, nickname } })
       navigate(`/detail/${pokemonName}`)
@@ -71,6 +72,13 @@ const Catch = () => {
 
         {success ? (
           <form>
+            {error ? (
+              <div className="alert alert-danger" role="alert">
+                Please choose different nickname
+              </div>
+            ) : (
+              ''
+            )}
             <div className="d-flex justify-content-center">
               <div className="form-group">
                 <input
