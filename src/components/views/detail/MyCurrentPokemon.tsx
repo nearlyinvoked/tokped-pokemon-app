@@ -15,7 +15,7 @@ const MyCurrentPokemon = ({
   url,
 }: MyCurrentPokemonProps) => {
   //context
-  const { ownedPokemon, updateReducer } = useContext(PokemonContext)
+  const { updateReducer } = useContext(PokemonContext)
 
   //handler
   const handleReleasePokemon = ({
