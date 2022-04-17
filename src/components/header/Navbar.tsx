@@ -33,10 +33,10 @@ const Navbar = (props: Props) => {
 const Pages = () => {
   return (
     <div className="navbar-nav d-flex justify-content-center">
-      <NavLink className="nav-link fw-bold" to="/">
+      <NavLink className="nav-link fw-bold" to="/" data-testid="link1">
         Pokemon List
       </NavLink>
-      <NavLink className="nav-link fw-bold" to="/mypokemon">
+      <NavLink className="nav-link fw-bold" to="/mypokemon" data-testid="link2">
         My Pokemon
       </NavLink>
     </div>

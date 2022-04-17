@@ -11,12 +11,16 @@ const Index = () => {
   return (
     <div className="container">
       <div className="row mt-4">
-        {ownedPokemon.map((item) => {
+        {ownedPokemon?.map((item) => {
           return (
             <div key={item.name} className="col-md-6 col-sm-12">
               <div style={boxStyle}>
                 <h5 className="pokemon-name" style={{ marginTop: '0.5rem' }}>
-                  <b>{item.name.toUpperCase()}</b> (owned: {item.owned})
+                  <b data-testid={`test-${item.name}`}>
+                    {item.name.toUpperCase()}
+                  </b>{' '}
+                  (owned:{' '}
+                  <b data-testid={`test-owned-${item.name}`}>{item.owned}</b>)
                 </h5>
                 <Link to={`/detail/${item.name}`} className="btn btn-primary">
                   View

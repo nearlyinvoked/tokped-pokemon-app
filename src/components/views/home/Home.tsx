@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
-import PokemonContext from '../../context/PokemonContext'
+import List from './List'
 
 //type
 import * as CSS from 'csstype'
@@ -12,9 +11,6 @@ export type DataProps = {
 }
 
 const Index = () => {
-  //context
-  const { ownedPokemon } = useContext(PokemonContext)
-
   //state
   const [pokemonList, setPokemonList] = useState<DataProps[]>([])
   const [pokemonURL, setPokemonURL] = useState<string>(
@@ -52,20 +48,7 @@ const Index = () => {
     <div className="container">
       <div className="row mt-4">
         {pokemonList.map((item) => {
-          const myPokemon = ownedPokemon.find((data) => data.name === item.name)
-          return (
-            <div key={item.name} className="col-md-6 col-sm-12">
-              <div style={boxStyle}>
-                <h5 className="pokemon-name" style={{ marginTop: '0.5rem' }}>
-                  <b>{item.name.toUpperCase()}</b> (owned:{' '}
-                  {myPokemon ? myPokemon.owned : 0})
-                </h5>
-                <Link to={`/detail/${item.name}`} className="btn btn-primary">
-                  View
-                </Link>
-              </div>
-            </div>
-          )
+          return <List item={item} key={item.name} />
         })}
       </div>
       <div className="d-flex justify-content-center mt-5 mb-5">
@@ -82,7 +65,7 @@ const Index = () => {
   )
 }
 
-const boxStyle: CSS.Properties = {
+export const boxStyle: CSS.Properties = {
   display: 'flex',
   margin: '0.5rem 0 0.5rem 0',
   padding: '0.5rem 0.5rem 0.5rem 0.5rem',

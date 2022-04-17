@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { boxStyle, DataProps } from './Detail'
 import PokemonContext, { OwnedPokemon } from '../../context/PokemonContext'
 import { UpdatePokemonProps } from './Detail'
