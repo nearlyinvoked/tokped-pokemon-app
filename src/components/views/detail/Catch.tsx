@@ -1,10 +1,8 @@
-import { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-import PokemonContext, {
-  UpdatePokemonProps,
-} from '../../context/PokemonContext'
+import PokemonContext from '../../context/PokemonContext'
 import { boxStyle, DataProps } from './Detail'
 
 const Catch = () => {
@@ -28,15 +26,34 @@ const Catch = () => {
   const navigate = useNavigate()
 
   //Handler
-  const handleCatchPokemon = ({ name, url, nickname }: UpdatePokemonProps) => {
-    const data = ownedPokemon.find((item: any) => item.name === name)
-    const filter = data?.list?.filter((item: any) => item.nickname === nickname)
+  // const handleCatchPokemon = ({ name, url, nickname }: UpdatePokemonProps) => {
+  //   const data = ownedPokemon.find((item: any) => item.name === name)
+  //   const filter = data?.list?.filter((item: any) => item.nickname === nickname)
+  //   console.log(filter)
+
+  //   if (filter?.length > 0) {
+  //     setError(true)
+  //   } else {
+  //     updateReducer({ type: 'Update', payload: { name, url, nickname } })
+  //     navigate(`/detail/${pokemonName}`)
+  //   }
+  // }
+
+  const handleCatchPokemon = (e: React.FormEvent) => {
+    e.preventDefault()
+    const data = ownedPokemon.find((item: any) => item.name === pokemonName)
+    const filter = data?.list?.filter(
+      (item: any) => item.nickname === newNickname,
+    )
     console.log(filter)
 
     if (filter?.length > 0) {
       setError(true)
     } else {
-      updateReducer({ type: 'Update', payload: { name, url, nickname } })
+      updateReducer({
+        type: 'Update',
+        payload: { name: pokemonName!, url: url, nickname: newNickname },
+      })
       navigate(`/detail/${pokemonName}`)
     }
   }
@@ -51,6 +68,7 @@ const Catch = () => {
       }
     }
     getPokemonDetail(pokemonName)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -71,7 +89,7 @@ const Catch = () => {
         </div>
 
         {success ? (
-          <form>
+          <form onSubmit={handleCatchPokemon}>
             {error ? (
               <div className="alert alert-danger" role="alert">
                 Please choose different nickname
@@ -90,17 +108,7 @@ const Catch = () => {
                   onChange={(e) => setNickname(e.target.value)}
                 />
               </div>
-              <button
-                type="button"
-                className="btn btn-success"
-                onClick={() =>
-                  handleCatchPokemon({
-                    name: pokemonName!,
-                    url: url,
-                    nickname: newNickname,
-                  })
-                }
-              >
+              <button type="submit" className="btn btn-success">
                 Add
               </button>
             </div>
