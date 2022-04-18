@@ -59,7 +59,7 @@ const Index = () => {
                     <ul>
                       {item.list.map((list: any) => (
                         <li>
-                          <div className="d-flex">
+                          <div className="d-flex my-1">
                             <p style={{ flexGrow: 1 }}>{list.nickname}</p>
                             <button
                               type="button"
@@ -89,14 +89,6 @@ const Index = () => {
             <b>You Currently don't have any Pokemon</b>
           </h5>
         )}
-
-        <div className="collapse" id="collapseExample">
-          <div className="card card-body">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
-            terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer
-            labore wes anderson cred nesciunt sapiente ea proident.
-          </div>
-        </div>
       </div>
     </div>
   )
